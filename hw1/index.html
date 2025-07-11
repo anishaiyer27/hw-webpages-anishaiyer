@@ -214,7 +214,7 @@
         <p>The dynamic pose demonstrates complex hierarchical transformations through multiple nested rotation and scaling operations. The entire robot is rotated <code>rotate(15)</code> for the tilted stance. The head combines <code>translate(0 -100)</code>, <code>rotate(75)</code>, and <code>scale(.6 .6)</code> for dramatic positioning. The left arm uses <code>translate(-90 -60) rotate(-30)</code> for the raised greeting pose, while the right arm employs <code>translate(90 -20) rotate(45)</code> with an additional forearm rotation <code>rotate(30)</code> for the waving gesture. The right leg includes <code>rotate(-10)</code> for asymmetric stance. This multi-layered approach illustrates how expressive character poses emerge from the thoughtful composition of geometric transformations.</p>
 
         <div style="display: flex; flex-direction: column; align-items: center;">
-            <img src="my_robot_final.png" width="400px"/>
+            <img src="robot_final.png" width="400px"/>
             <figcaption>Colorful robot character demonstrating complex hierarchical transformations in a dynamic waving pose</figcaption>
         </div>
 
@@ -367,9 +367,9 @@
         </figure>
         </div>
 
-        <h2>Task 7: Extra Credit - Creative SVG Artwork</h2>
+        <h3>Task 7: Extra Credit - Creative SVG Artwork</h3>
 
-        <h3>Procedural Portrait Generation</h3>
+        <h4>Procedural Portrait Generation</h4>
         <p>This creative artwork demonstrates a procedural approach to SVG generation through a Python-based portrait creation system. Rather than manually crafting SVG elements, the implementation uses algorithmic generation to create variations of a stylized portrait with mathematical precision and controlled randomization.</p>
         
         <p>The artwork features a portrait composition with several algorithmically generated elements. Curly hair generation uses mathematical functions including sine waves and controlled randomness to create natural-looking zigzag patterns that simulate volumetric curls. Parametric facial structure employs polygon-based construction with precise coordinate calculations to maintain natural proportions. Systematic color palettes implement three distinct teal-based color schemes with coordinated relationships between hair, outfit, and background colors. Dynamic scene elements include procedurally placed musical notes with random positioning and rotation, plus teal stage lighting effects with varying opacity.</p>
@@ -379,10 +379,10 @@
             <figcaption>Procedurally generated portrait demonstrating algorithmic SVG creation with curly hair and teal color schemes</figcaption>
         </div>
 
-        <h3>Technical Implementation</h3>
+        <h4>Technical Implementation</h4>
         <p>The implementation uses Python to generate SVG code through mathematical algorithms. Hair strand generation employs functions like <code>generate_curly_hair_strand()</code> that use modular arithmetic and sine functions to create realistic curl patterns with controlled randomness. Layered polygon construction builds complex shapes through coordinate transformation and point generation, with hair requiring up to 280-point polygons for smooth curves. Color palette management implements three distinct teal-based schemes using RGB color theory to ensure visual harmony. Procedural scene composition uses random number generation with bounded parameters to place musical notes, stage lights, and sparkle effects while maintaining compositional balance.</p>
 
-        <h3>Algorithmic Features</h3>
+        <h4>Algorithmic Features</h4>
         <p>The generation system demonstrates several computational graphics techniques. Curve generation uses mathematical functions including <code>math.sin(i * 0.3) * 10</code> to create natural hair flow patterns. Controlled randomization employs functions like <code>random.randint(-3, 3)</code> to add organic variation while maintaining structural integrity. Coordinate transformation implements systematic point generation for complex polygons, with zigzag patterns created through alternating directional logic. Variation generation produces multiple unique artworks through parameterized color schemes and randomized element placement, demonstrating how algorithmic approaches can create diverse artistic outputs from a single codebase.</p>
 
         <p>This implementation showcases how computational methods can enhance artistic creation, using mathematical precision to generate complex visual compositions while incorporating controlled randomness to achieve natural, organic aesthetics.</p>
