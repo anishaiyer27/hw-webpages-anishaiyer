@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="800" height="800" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Enhanced Sabrina Carpenter Portrait with Curly Hair -->
+  
+  <!-- Gradient Background -->
+  <polygon points="0,0 800,0 800,300 0,300" style="fill:rgb(135,206,250)"/>
+  <polygon points="0,300 800,300 800,500 0,500" style="fill:rgb(176,224,230)"/>
+  <polygon points="0,500 800,500 800,800 0,800" style="fill:rgb(224,255,255)"/>
+
+  <!-- Curly Voluminous Hair - No Forehead Gap -->
+  <g transform="translate(400,120)">
+    <!-- Crown extending to cover entire forehead -->
+    <polygon points="-90,-40 90,-40 95,-20 90,40 -90,40 -95,-20" style="fill:rgb(255,248,220)"/>
+    
+    <!-- Curly bangs covering forehead completely -->
+    <polygon points="-85,25 -75,-30 -55,-35 -35,-38 -15,-40 5,-40 25,-38 45,-35 65,-30 75,-25 85,25 75,30 55,28 35,30 15,32 -5,30 -25,32 -45,30 -65,28 -75,30" style="fill:rgb(255,250,205)"/>
+    <polygon points="-60,-30 -40,-38 -20,-40 0,-42 20,-40 40,-38 60,-30 65,-15 60,10 40,5 20,7 0,5 -20,7 -40,5 -60,10 -65,-15" style="fill:rgb(255,255,230)"/>
+    
+    <!-- Left side curly cascades -->
+    <polygon points="-75,10 -85,25 -70,40 -80,55 -65,70 -75,85 -60,100 -70,115 -55,130 -65,145 -50,160 -60,175 -45,190 -55,205 -40,220 -50,235 -35,250 -25,255 -15,250 -25,235 -35,220 -25,205 -35,190 -25,175 -35,160 -25,145 -35,130 -25,115 -35,100 -25,85 -35,70 -25,55 -35,40 -25,25 -35,10" style="fill:rgb(255,245,200)"/>
+    
+    <!-- More left curls (outer layer) -->
+    <polygon points="-90,15 -100,30 -85,45 -95,60 -80,75 -90,90 -75,105 -85,120 -70,135 -80,150 -65,165 -75,180 -60,195 -70,210 -55,225 -65,240 -50,255 -60,270 -45,285 -35,290 -25,285 -35,270 -45,255 -35,240 -45,225 -35,210 -45,195 -35,180 -45,165 -35,150 -45,135 -35,120 -45,105 -35,90 -45,75 -35,60 -45,45 -35,30 -45,15" style="fill:rgb(255,250,205)"/>
+    
+    <!-- Right side curly cascades -->
+    <polygon points="75,10 85,25 70,40 80,55 65,70 75,85 60,100 70,115 55,130 65,145 50,160 60,175 45,190 55,205 40,220 50,235 35,250 25,255 15,250 25,235 35,220 25,205 35,190 25,175 35,160 25,145 35,130 25,115 35,100 25,85 35,70 25,55 35,40 25,25 35,10" style="fill:rgb(255,245,200)"/>
+    
+    <!-- More right curls (outer layer) -->
+    <polygon points="90,15 100,30 85,45 95,60 80,75 90,90 75,105 85,120 70,135 80,150 65,165 75,180 60,195 70,210 55,225 65,240 50,255 60,270 45,285 35,290 25,285 35,270 45,255 35,240 45,225 35,210 45,195 35,180 45,165 35,150 45,135 35,120 45,105 35,90 45,75 35,60 45,45 35,30 45,15" style="fill:rgb(255,250,205)"/>
+    
+    <!-- Central back curly flow -->
+    <polygon points="-35,10 -25,25 -15,40 -5,55 5,70 15,85 25,100 15,115 5,130 -5,145 -15,160 -25,175 -35,190 -25,205 -15,220 -5,235 5,250 15,265 25,280 15,295 5,310 -5,325 -15,340 -5,355 5,370 0,380 -5,370 -15,355 -25,340 -35,325 -45,310 -35,295 -25,280 -35,265 -45,250 -35,235 -25,220 -35,205 -45,190 -35,175 -25,160 -35,145 -45,130 -35,115 -25,100 -35,85 -45,70 -35,55 -25,40 -35,25 -45,10" style="fill:rgb(255,248,220)"/>
+    
+    <!-- Face-framing curly layers -->
+    <polygon points="-60,-25 -70,-10 -55,5 -65,20 -50,35 -60,50 -45,65 -55,80 -40,95 -50,110 -35,125 -45,140 -30,155 -40,170 -25,185 -15,190 -5,185 -15,170 -25,155 -15,140 -25,125 -15,110 -25,95 -15,80 -25,65 -15,50 -25,35 -15,20 -25,5 -15,-10 -25,-25" style="fill:rgb(255,255,230)"/>
+    <polygon points="60,-25 70,-10 55,5 65,20 50,35 60,50 45,65 55,80 40,95 50,110 35,125 45,140 30,155 40,170 25,185 15,190 5,185 15,170 25,155 15,140 25,125 15,110 25,95 15,80 25,65 15,50 25,35 15,20 25,5 15,-10 25,-25" style="fill:rgb(255,255,230)"/>
+    
+    <!-- Curly bangs with spiral texture -->
+    <polygon points="-55,-35 -45,-45 -25,-48 -5,-50 15,-48 35,-45 55,-35 65,-20 55,-5 35,0 15,2 -5,0 -25,-2 -45,-5 -65,-20" style="fill:rgb(255,250,205)"/>
+    <polygon points="-40,-38 -30,-43 -10,-45 10,-43 30,-38 35,-28 30,-18 10,-15 -10,-13 -30,-15 -35,-28" style="fill:rgb(255,255,230)"/>
+    
+    <!-- Small spiral curls for texture -->
+    <polygon points="-95,60 -90,55 -85,60 -90,65" style="fill:rgb(255,255,230)"/>
+    <polygon points="85,75 90,70 95,75 90,80" style="fill:rgb(255,255,230)"/>
+    <polygon points="-50,120 -45,115 -40,120 -45,125" style="fill:rgb(255,255,230)"/>
+    <polygon points="40,135 45,130 50,135 45,140" style="fill:rgb(255,255,230)"/>
+    <polygon points="-30,200 -25,195 -20,200 -25,205" style="fill:rgb(255,255,230)"/>
+    <polygon points="20,215 25,210 30,215 25,220" style="fill:rgb(255,255,230)"/>
+  </g>
+
+  <!-- Enhanced Face -->
+  <g transform="translate(400,200)">
+    <!-- Apple face shape - wider at top, narrow at bottom -->
+    <polygon points="-70,-30 70,-30 80,-10 75,15 70,35 60,50 45,60 25,68 0,70 -25,68 -45,60 -60,50 -70,35 -75,15 -80,-10" style="fill:rgb(255,228,196)"/>
+    <polygon points="-65,-25 65,-25 73,-5 68,20 63,38 53,53 38,63 20,68 0,70 -20,68 -38,63 -53,53 -63,38 -68,20 -73,-5" style="fill:rgb(255,235,205)"/>
+    
+    <!-- Pronounced chin extension -->
+    <polygon points="-25,70 25,70 30,78 25,85 15,88 0,90 -15,88 -25,85 -30,78" style="fill:rgb(255,228,196)"/>
+    <polygon points="-20,73 20,73 23,80 20,85 10,87 0,88 -10,87 -20,85 -23,80" style="fill:rgb(255,235,205)"/>
+    
+    <!-- Detailed eyes with lashes -->
+    <g transform="translate(-22,-5)">
+      <polygon points="-15,-10 15,-10 15,10 -15,10" style="fill:rgb(255,255,255)"/>
+      <polygon points="-12,-8 12,-8 12,8 -12,8" style="fill:rgb(135,206,235)"/>
+      <polygon points="-6,-6 6,-6 6,6 -6,6" style="fill:rgb(0,0,0)"/>
+      <polygon points="-3,-3 3,-3 3,3 -3,3" style="fill:rgb(255,255,255)"/>
+      <!-- Eyelashes -->
+      <polygon points="-12,-12 -10,-15 -8,-12 -10,-10" style="fill:rgb(0,0,0)"/>
+      <polygon points="8,-12 10,-15 12,-12 10,-10" style="fill:rgb(0,0,0)"/>
+    </g>
+    
+    <g transform="translate(22,-5)">
+      <polygon points="-15,-10 15,-10 15,10 -15,10" style="fill:rgb(255,255,255)"/>
+      <polygon points="-12,-8 12,-8 12,8 -12,8" style="fill:rgb(135,206,235)"/>
+      <polygon points="-6,-6 6,-6 6,6 -6,6" style="fill:rgb(0,0,0)"/>
+      <polygon points="-3,-3 3,-3 3,3 -3,3" style="fill:rgb(255,255,255)"/>
+      <!-- Eyelashes -->
+      <polygon points="-12,-12 -10,-15 -8,-12 -10,-10" style="fill:rgb(0,0,0)"/>
+      <polygon points="8,-12 10,-15 12,-12 10,-10" style="fill:rgb(0,0,0)"/>
+    </g>
+
+    <!-- Eyebrows -->
+    <polygon points="-35,-15 -15,-18 -10,-12 -30,-9" style="fill:rgb(205,183,158)"/>
+    <polygon points="35,-15 15,-18 10,-12 30,-9" style="fill:rgb(205,183,158)"/>
+
+    <!-- Nose with shadow -->
+    <polygon points="-4,10 4,10 6,22 4,28 -4,28 -6,22" style="fill:rgb(255,218,185)"/>
+    <polygon points="2,15 4,22 2,25 0,22" style="fill:rgb(245,208,175)"/>
+
+    <!-- Enhanced lips -->
+    <polygon points="-18,35 18,35 22,42 18,50 -18,50 -22,42" style="fill:rgb(220,20,60)"/>
+    <polygon points="-15,38 15,38 15,46 -15,46" style="fill:rgb(255,100,150)"/>
+    <polygon points="-8,40 8,40 8,44 -8,44" style="fill:rgb(255,150,180)"/>
+
+    <!-- Cheek highlights -->
+    <polygon points="-45,15 -35,12 -30,20 -40,25" style="fill:rgb(255,200,210)"/>
+    <polygon points="45,15 35,12 30,20 40,25" style="fill:rgb(255,200,210)"/>
+  </g>
+
+  <!-- Elegant Teal Performance Outfit -->
+  <g transform="translate(400,320)">
+    <!-- Main dress with gradient effect -->
+    <polygon points="-85,0 85,0 105,30 120,80 125,130 120,180 100,220 -100,220 -120,180 -125,130 -120,80 -105,30" style="fill:rgb(72,209,204)"/>
+    <polygon points="-75,10 75,10 90,35 100,75 105,115 100,165 85,200 -85,200 -100,165 -105,115 -100,75 -90,35" style="fill:rgb(95,220,215)"/>
+    
+    <!-- Sequined details -->
+    <polygon points="-60,25 -55,20 -50,25 -55,30" style="fill:rgb(175,238,238)"/>
+    <polygon points="0,35 5,30 10,35 5,40" style="fill:rgb(175,238,238)"/>
+    <polygon points="50,45 55,40 60,45 55,50" style="fill:rgb(175,238,238)"/>
+    <polygon points="-30,65 -25,60 -20,65 -25,70" style="fill:rgb(175,238,238)"/>
+    <polygon points="25,75 30,70 35,75 30,80" style="fill:rgb(175,238,238)"/>
+    <polygon points="-10,95 -5,90 0,95 -5,100" style="fill:rgb(175,238,238)"/>
+    <polygon points="15,110 20,105 25,110 20,115" style="fill:rgb(175,238,238)"/>
+    
+    <!-- Decorative neckline -->
+    <polygon points="-70,5 70,5 75,15 70,25 -70,25 -75,15" style="fill:rgb(0,128,128)"/>
+    
+    <!-- Arms with sleeves -->
+    <polygon points="-105,15 -125,25 -135,70 -130,85 -110,80 -95,25" style="fill:rgb(255,228,196)"/>
+    <polygon points="105,15 125,25 135,70 130,85 110,80 95,25" style="fill:rgb(255,228,196)"/>
+    <polygon points="-125,20 -140,30 -145,65 -140,75 -125,70 -115,30" style="fill:rgb(95,220,215)"/>
+    <polygon points="125,20 140,30 145,65 140,75 125,70 115,30" style="fill:rgb(95,220,215)"/>
+  </g>
+
+  <!-- Professional Standing Microphone -->
+  <g transform="translate(600,250)">
+    <!-- Weighted base -->
+    <polygon points="-40,450 40,450 35,465 -35,465" style="fill:rgb(64,64,64)"/>
+    <polygon points="-20,445 20,445 20,450 -20,450" style="fill:rgb(105,105,105)"/>
+    
+    <!-- Main stand pole -->
+    <polygon points="-4,150 4,150 4,445 -4,445" style="fill:rgb(128,128,128)"/>
+    
+    <!-- Boom arm with joint -->
+    <polygon points="-6,145 -6,155 -90,155 -90,145" style="fill:rgb(128,128,128)"/>
+    <polygon points="-10,140 10,140 10,160 -10,160" style="fill:rgb(105,105,105)"/>
+    
+    <!-- Mic clip and shock mount -->
+    <polygon points="-100,135 -80,135 -80,175 -100,175" style="fill:rgb(169,169,169)"/>
+    <polygon points="-95,140 -85,140 -85,170 -95,170" style="fill:rgb(192,192,192)"/>
+    
+    <!-- Microphone capsule -->
+    <polygon points="-110,130 -70,130 -70,180 -110,180" style="fill:rgb(175,238,238)"/>
+    <polygon points="-105,135 -75,135 -75,175 -105,175" style="fill:rgb(200,248,248)"/>
+    
+    <!-- Mic grille pattern -->
+    <polygon points="-102,140 -78,140 -78,145 -102,145" style="fill:rgb(72,209,204)"/>
+    <polygon points="-102,150 -78,150 -78,155 -102,155" style="fill:rgb(72,209,204)"/>
+    <polygon points="-102,160 -78,160 -78,165 -102,165" style="fill:rgb(72,209,204)"/>
+    <polygon points="-102,170 -78,170 -78,175 -102,175" style="fill:rgb(72,209,204)"/>
+  </g>
+
+  <!-- Floating Musical Elements -->
+  <g>
+    <!-- Treble clef -->
+    <g transform="translate(150,180)">
+      <polygon points="0,0 8,0 12,5 12,15 8,20 4,15 4,10 8,5 8,0" style="fill:rgb(72,209,204)"/>
+      <polygon points="8,15 8,35 4,40 0,35 0,30 4,25 8,30 8,35" style="fill:rgb(72,209,204)"/>
+    </g>
+    
+    <!-- Musical notes with stems -->
+    <g transform="translate(700,150)">
+      <polygon points="0,0 10,0 10,30 6,35 0,30" style="fill:rgb(0,0,0)"/>
+      <polygon points="10,0 20,5 18,15 10,10" style="fill:rgb(0,0,0)"/>
+    </g>
+    
+    <g transform="translate(120,400)">
+      <polygon points="0,0 8,0 8,25 4,30 0,25" style="fill:rgb(0,0,0)"/>
+      <polygon points="8,0 16,4 14,12 8,8" style="fill:rgb(0,0,0)"/>
+    </g>
+  </g>
+
+  <!-- Stage Lighting Effects -->
+  <g>
+    <polygon points="50,20 100,30 250,500 0,500" style="fill:rgb(72,209,204)" fill-opacity="0.15"/>
+    <polygon points="700,20 750,30 800,500 550,500" style="fill:rgb(175,238,238)" fill-opacity="0.15"/>
+    <polygon points="350,10 450,20 500,450 300,450" style="fill:rgb(0,206,209)" fill-opacity="0.2"/>
+  </g>
+
+  <!-- Performance Banner -->
+  <g transform="translate(400,750)">
+    <polygon points="-180,0 180,0 200,15 180,30 -180,30 -200,15" style="fill:rgb(72,209,204)" fill-opacity="0.9"/>
+  </g>
+
+</svg>
