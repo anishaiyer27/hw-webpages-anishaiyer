@@ -121,9 +121,14 @@
         </div>
 
         <h2>Overview</h2>
-        Give a high-level overview of what you implemented in this homework. Think about what you've built as a whole. Share your thoughts on what interesting things you've learned from completing the homework.
-
-        [TODO: fill this in later when im done]
+        In Homework 1, I have implemented a complete 2D graphics rasterizer that demonstrates fundamental computer graphics principles from the ground up. The system
+        includes triangle rasterization with point-in-triangle testing using edge functions, supersampling anti-aliasing to reduce jagged edges, and
+        optimized performance variants with incremental algorithms. I built a hierarchical transformation system supporting complex SVG scenes with nested groups,
+        rotations, and scaling, exemplified by an expressive robot character that showcases dynamic poses through matrix composition. The advanced texture mapping
+        implementation features both nearest-neighbor and bilinear interpolation for pixel sampling, along with a complete mipmap system supporting three level sampling
+        modes: basic texture sampling (L_ZERO), automatic mipmap level selection (L_NEAREST), and trilinear filtering (L_LINEAR) for smooth transitions. This project provided
+        me insights into the translation of theoretical graphics concepts into practical visual systems, starting from sampling theory and aliasing reduction to hierarchical transformations
+        and level-of-detail management to build a system that mirrors the structure of modern GPU rendering pipelines.
 
         <h2>Task 1: Drawing Single-Color Triangles</h2>
         
@@ -203,7 +208,7 @@
         <h3>Robot Design Implementation</h3>
         <p>The Cubeman implementation demonstrates hierarchical transformations through a robot character in a dynamic, colorful pose. The robot is tilted 15 degrees from vertical and performs an energetic waving gesture with asymmetric arm positioning. One arm is raised upward in a greeting motion while the other extends outward, and the robot's head is dramatically tilted, creating a playful and expressive character that effectively demonstrates complex hierarchical transformations.</p>
 
-        <p>The robot uses a vibrant multi-colored scheme to create visual interest and distinguish body parts. The <strong>head</strong> is rendered in bright green, the <strong>torso</strong> in blue, the <strong>left arm</strong> in pink gradient tones, and the <strong>right arm</strong> in cyan shades. The <strong>left leg</strong> uses yellow-orange colors while the <strong>right leg</strong> employs purple hues, creating a rainbow robot aesthetic.</p>
+        <p>My robot uses a vibrant multi-colored scheme to create visual interest and distinguish body parts. The <strong>head</strong> is rendered in bright green, the <strong>torso</strong> in blue, the <strong>left arm</strong> in pink gradient tones, and the <strong>right arm</strong> in cyan shades. The <strong>left leg</strong> uses yellow-orange colors while the <strong>right leg</strong> employs purple hues, creating a rainbow robot aesthetic.</p>
 
         <h3>Hierarchical Transformation Implementation</h3>
         <p>The dynamic pose demonstrates complex hierarchical transformations through multiple nested rotation and scaling operations. The entire robot is rotated <code>rotate(15)</code> for the tilted stance. The head combines <code>translate(0 -100)</code>, <code>rotate(75)</code>, and <code>scale(.6 .6)</code> for dramatic positioning. The left arm uses <code>translate(-90 -60) rotate(-30)</code> for the raised greeting pose, while the right arm employs <code>translate(90 -20) rotate(45)</code> with an additional forearm rotation <code>rotate(30)</code> for the waving gesture. The right leg includes <code>rotate(-10)</code> for asymmetric stance. This multi-layered approach illustrates how expressive character poses emerge from the thoughtful composition of geometric transformations.</p>
@@ -356,7 +361,7 @@
         <h2>Task 7: Extra Credit - Creative SVG Artwork</h2>
 
         <h3>Procedural Portrait Generation</h3>
-        <p>The creative artwork demonstrates a procedural approach to SVG generation through a Python-based portrait creation system. Rather than manually crafting SVG elements, the implementation uses algorithmic generation to create variations of a stylized portrait with mathematical precision and controlled randomization.</p>
+        <p>This creative artwork demonstrates a procedural approach to SVG generation through a Python-based portrait creation system. Rather than manually crafting SVG elements, the implementation uses algorithmic generation to create variations of a stylized portrait with mathematical precision and controlled randomization.</p>
         
         <p>The artwork features a portrait composition with several algorithmically generated elements. <strong>Curly hair generation</strong> uses mathematical functions including sine waves and controlled randomness to create natural-looking zigzag patterns that simulate volumetric curls. <strong>Parametric facial structure</strong> employs polygon-based construction with precise coordinate calculations to maintain natural proportions. <strong>Systematic color palettes</strong> implement three distinct teal-based color schemes with coordinated relationships between hair, outfit, and background colors. <strong>Dynamic scene elements</strong> include procedurally placed musical notes with random positioning and rotation, plus teal stage lighting effects with varying opacity.</p>
 
