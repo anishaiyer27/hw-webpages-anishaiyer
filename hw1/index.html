@@ -319,11 +319,11 @@
         </p>
 
         <p>
-        The difference between nearest and bilinear sampling is most pronounced when textures are magnified (zoomed in) or when viewing high-frequency texture details at oblique angles. In the screenshots above, we can observe how bilinear sampling reduces the blocky artifacts that are visible in the nearest neighbor version, particularly along the diagonal edges and fine texture details where the sharp pixel boundaries become smooth gradients.
+        The difference between nearest and bilinear sampling is most pronounced when textures are magnified (zoomed in) or when viewing high-frequency texture details at oblique angles. In the screenshots above showing the Campanile and surrounding architecture, the contrast is particularly evident in several key areas: the fine architectural details of the Campanile facades show much smoother transitions with bilinear sampling, the diagonal edges of the tower structure appear less jagged, and the textural elements in the foliage areas demonstrate how bilinear interpolation creates more natural color gradations compared to the harsh pixel boundaries visible in nearest neighbor sampling.
         </p>
 
         <p>
-        The difference between the two becomes more pronounced in areas where the texture contains fine detail or is minified. Supersampling helps mitigate aliasing in both methods, but bilinear sampling generally outperforms nearest neighbor in producing visually smooth transitions and better overall image quality.
+        The comparison becomes especially clear when examining the granular visual details of the tower's gaps and stone textures, where nearest neighbor sampling creates visible blockiness that bilinear sampling effectively smooths out. Supersampling helps mitigate aliasing in both methods, but bilinear sampling generally outperforms nearest neighbor in producing visually smooth transitions and better overall image quality, particularly for complex architectural textures like those shown in the image of the Campanile.
         </p>
 
         <h2>Task 6: "Level sampling" with mipmaps for texture mapping</h2>
@@ -388,7 +388,6 @@
             <img src="TASK_6_Bi_1.png" alt="L_NEAREST and P_LINEAR" style="width: 100%;">
             <figcaption>L_NEAREST and P_LINEAR</figcaption>
         </figure>
-        </div>
         <figure>
             <img src="TASK_6_Ne_2.png" alt="L_LINEAR and P_NEAREST" style="width: 100%;">
             <figcaption>L_LINEAR and P_NEAREST</figcaption>
