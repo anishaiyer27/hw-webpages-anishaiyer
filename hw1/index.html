@@ -142,9 +142,11 @@
 
         <h3>Edge Function Setup</h3>
         <p>For each edge of the triangle, an edge function is defined using the expression:</p>
-        <pre><code>(x - x0) * (y1 - y0) - (y - y0) * (x1 - x0)</code></pre>
+        <pre><code>E(x,y) = (x - x0)(y1 - y0) - (y - y0)(x1 - x0)</code></pre>
+        <p>Where <code>(x0,y0)</code> and <code>(x1,y1)</code> are the edge endpoints.</p>
         <p>This function determines whether a point lies on the "inside" or "outside" of an edge, 
-            which is important for determining pixel coverage.</p>
+            which is important for determining pixel coverage. The edge function returns a positive value 
+            for points on one side of the edge and a negative value for points on the other side.</p>
 
         <h3>Pixel Iteration and Sampling</h3>
         <p>The algorithm iterates over every pixel within the bounding box. Instead of testing the pixel's top-left corner, 
@@ -162,11 +164,11 @@
             and then averaged in <code>resolve_to_framebuffer()</code> to produce smooth antialiased edges.</p>
 
         <h3>Algorithm Efficiency</h3>
-        <p>This algorithm is designed to be as efficient as possible without skipping necessary evaluations. In terms of <strong>spatial scope</strong>, the algorithm never iterates outside the triangle's bounding box. For <strong>time complexity</strong>, each pixel is tested in constant time, so total cost scales with bounding box area. Most importantly, there is <strong>no wasted computation</strong> - every pixel tested might contribute to the final render.</p>
+        <p>This algorithm is designed to be as efficient as possible without skipping necessary evaluations. In terms of <strong>spatial scope</strong>, the algorithm never iterates outside the triangle's bounding box. For <strong>time complexity</strong>, each pixel is tested in constant time, so total cost scales with bounding box area. The algorithm's O(bbox_area) complexity ensures efficient rendering, as each pixel is tested exactly once. Most importantly, there is <strong>no wasted computation</strong> - every pixel tested might contribute to the final render.</p>
 
         <h3>Task 1 Screenshot</h3>
         <div style="display: flex; flex-direction: column; align-items: center;">
-            <img src="TASK_1.png" width="600px"/>
+            <img src="TASK_1_fixed.png" width="600px"/>
             <figcaption>Screenshot of basic/test4.svg with default viewing parameters and pixel inspector centered on triangle edge showing aliasing artifacts</figcaption>
         </div>
 
@@ -201,7 +203,23 @@
         <h3>Algorithm Overview</h3>
         <p>The supersampling algorithm uses <strong>high-resolution sampling</strong> where for each pixel, <code>√sample_rate × √sample_rate</code> samples are taken, arranged in a uniform grid pattern within the pixel. For <strong>sample buffer storage</strong>, each sub-pixel sample is stored in a high-resolution <code>sample_buffer</code> that is <code>sample_rate</code> times larger than the final framebuffer. Finally, during <strong>downsampling</strong>, after rendering, <code>resolve_to_framebuffer()</code> averages all sub-pixel samples to compute the final pixel color.</p>
 
-        <!-- ...existing code for rest of Task 2... -->
+        <h3>Data Structure Modifications</h3>
+        <p>The implementation required several key modifications to support supersampling:</p>
+        
+        <h4>Sample Buffer Expansion</h4>
+        <p>The <code>sample_buffer</code> was expanded from <code>width × height</code> to <code>width × height × sample_rate</code> to store all sub-pixel samples. This allows independent storage of each sample within a pixel before final averaging.</p>
+
+        <h4>Rasterization Pipeline Changes</h4>
+        <p>Triangle rasterization now iterates through all sub-pixel samples within each pixel. For each sub-pixel location <code>(x + dx, y + dy)</code>, where <code>dx</code> and <code>dy</code> are fractional offsets, the point-in-triangle test is performed and results stored in the expanded sample buffer.</p>
+
+        <h4>Resolution and Averaging</h4>
+        <p>The <code>resolve_to_framebuffer()</code> function averages all samples within each pixel to compute the final color. This averaging process naturally produces intermediate gray levels that smooth out jagged edges, creating the antialiasing effect.</p>
+
+        <h3>Why Supersampling Works</h3>
+        <p>Supersampling is effective because it addresses the fundamental cause of aliasing: insufficient sampling frequency. By taking multiple samples per pixel and averaging them, we effectively increase the sampling rate and reduce high-frequency artifacts. The averaging process acts as a low-pass filter, smoothing out sharp transitions and creating more visually pleasing results.</p>
+
+        <h3>Results Analysis</h3>
+        <p>The comparison screenshots demonstrate the progressive improvement in edge quality as sample rate increases. At sample rate 1, triangle edges appear jagged with harsh pixel-level transitions. Sample rate 4 introduces intermediate gray values along edges, significantly reducing jaggedness. Sample rate 16 produces very smooth edges with clean color gradients. These results occur because supersampling captures partial pixel coverage at triangle edges, creating intermediate gray values that smooth the visual transition from triangle interior to background. Each increase in sample rate provides diminishing returns, but the visual improvement is clear, especially along diagonal edges and thin geometric features.</p>
 
         <h2>Task 3: Transforms</h2>
         
@@ -232,6 +250,14 @@
         
         <p>The coordinate system has several important properties. In terms of <strong>vertex influence</strong>, each coordinate represents the "influence" of that vertex on the point. For <strong>normalized range</strong>, values range from 0 to 1, where 1 means the point coincides with that vertex. The <strong>distance relationship</strong> means that points closer to a vertex have higher coordinate values for that vertex. Finally, for <strong>linear interpolation</strong>, any attribute can be smoothly interpolated using the same weights.</p>
         
+        <h3>Visual Demonstration</h3>
+        <p>To illustrate barycentric coordinates visually, we consider a triangle with three differently colored vertices. Each point inside the triangle displays a color that is the weighted average of the three vertex colors- the weights being the barycentric coordinates themselves.</p>
+
+        <div style="display: flex; flex-direction: column; align-items: center;">
+            <img src="barycentric_demo.png" width="400px"/>
+            <figcaption>Triangle with red, green, and blue vertices showing smooth color interpolation using barycentric coordinates</figcaption>
+        </div>
+
         <h3>Color Interpolation Process</h3>
         <p>For color interpolation, the barycentric coordinates serve as blending weights:</p>
         <p><code>Color(P) = α * Color(A) + β * Color(B) + γ * Color(C)</code></p>
@@ -293,6 +319,10 @@
         </p>
 
         <p>
+        The difference between nearest and bilinear sampling is most pronounced when textures are magnified (zoomed in) or when viewing high-frequency texture details at oblique angles. In the screenshots above, we can observe how bilinear sampling reduces the blocky artifacts that are visible in the nearest neighbor version, particularly along the diagonal edges and fine texture details where the sharp pixel boundaries become smooth gradients.
+        </p>
+
+        <p>
         The difference between the two becomes more pronounced in areas where the texture contains fine detail or is minified. Supersampling helps mitigate aliasing in both methods, but bilinear sampling generally outperforms nearest neighbor in producing visually smooth transitions and better overall image quality.
         </p>
 
@@ -303,6 +333,8 @@
 
         <h3>Level Calculation</h3>
         <p>Mipmap levels are calculated using texture coordinate derivatives to determine the rate of texture change across screen pixels. The implementation computes the UV coordinate gradients for neighboring pixels and uses the maximum gradient magnitude to select the appropriate detail level.</p>
+        
+        <p>Specifically, the algorithm calculates the derivatives <code>du/dx</code>, <code>du/dy</code>, <code>dv/dx</code>, and <code>dv/dy</code> using finite differences between adjacent screen pixels. The mipmap level is then determined using the formula <code>level = log2(max(||∇u||, ||∇v||))</code>, where the gradient magnitudes represent the rate of texture coordinate change. This approach prevents aliasing during texture minification by pre-filtering high frequencies that would otherwise cause temporal artifacts.</p>
 
         <h3>Sampling Method Comparison</h3>
         <p>The three techniques (pixel sampling, level sampling, and supersampling) offer different tradeoffs:</p>
@@ -350,20 +382,20 @@
         </figure>
         <figure>
             <img src="TASK_6_Ne_1.png" alt="L_NEAREST and P_NEAREST" style="width: 100%;">
-            <figcaption>L_LINEAR and P_NEAREST</figcaption>
-        </figure>
-        <figure>
-            <img src="TASK_6_Bi_1.png" alt="L_NEAREST and P_LINEAR" style="width: 100%;">
-            <figcaption>L_LINEAR and P_LINEAR</figcaption>
-        </figure>
-        </div>
-        <figure>
-            <img src="TASK_6_Ne_2.png" alt="L_NEAREST and P_NEAREST" style="width: 100%;">
             <figcaption>L_NEAREST and P_NEAREST</figcaption>
         </figure>
         <figure>
-            <img src="TASK_6_Bi_2.png" alt="L_NEAREST and P_LINEAR" style="width: 100%;">
+            <img src="TASK_6_Bi_1.png" alt="L_NEAREST and P_LINEAR" style="width: 100%;">
             <figcaption>L_NEAREST and P_LINEAR</figcaption>
+        </figure>
+        </div>
+        <figure>
+            <img src="TASK_6_Ne_2.png" alt="L_LINEAR and P_NEAREST" style="width: 100%;">
+            <figcaption>L_LINEAR and P_NEAREST</figcaption>
+        </figure>
+        <figure>
+            <img src="TASK_6_Bi_2.png" alt="L_LINEAR and P_LINEAR" style="width: 100%;">
+            <figcaption>L_LINEAR and P_LINEAR</figcaption>
         </figure>
         </div>
 
