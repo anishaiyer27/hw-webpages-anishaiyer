@@ -381,27 +381,27 @@
         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin: 1em 0;">
         <figure>
             <img src="TASK_6_Ne_0.png" alt="L_ZERO and P_NEAREST" style="width: 100%;">
-            <figcaption>L_ZERO and P_NEAREST</figcaption>
+            <figcaption>L_ZERO and P_NEAREST: Shows full-resolution texture with blocky artifacts from nearest neighbor sampling.</figcaption>
         </figure>
         <figure>
             <img src="TASK_6_Bi_0.png" alt="L_ZERO and P_LINEAR" style="width: 100%;">
-            <figcaption>L_ZERO and P_LINEAR</figcaption>
+            <figcaption>L_ZERO and P_LINEAR: Full-resolution texture with smoother pixel transitions from bilinear interpolation.</figcaption>
         </figure>
         <figure>
             <img src="TASK_6_Ne_1.png" alt="L_NEAREST and P_NEAREST" style="width: 100%;">
-            <figcaption>L_NEAREST and P_NEAREST</figcaption>
+            <figcaption>L_NEAREST and P_NEAREST: Automatic mipmap level selection reduces distant aliasing but maintains blocky pixel sampling.</figcaption>
         </figure>
         <figure>
             <img src="TASK_6_Bi_1.png" alt="L_NEAREST and P_LINEAR" style="width: 100%;">
-            <figcaption>L_NEAREST and P_LINEAR</figcaption>
+            <figcaption>L_NEAREST and P_LINEAR: Combines mipmap level optimization with smooth bilinear pixel sampling.</figcaption>
         </figure>
         <figure>
             <img src="TASK_6_Ne_2.png" alt="L_LINEAR and P_NEAREST" style="width: 100%;">
-            <figcaption>L_LINEAR and P_NEAREST</figcaption>
+            <figcaption>L_LINEAR and P_NEAREST: Trilinear filtering between mipmap levels with blocky nearest neighbor pixels.</figcaption>
         </figure>
         <figure>
             <img src="TASK_6_Bi_2.png" alt="L_LINEAR and P_LINEAR" style="width: 100%;">
-            <figcaption>L_LINEAR and P_LINEAR</figcaption>
+            <figcaption>L_LINEAR and P_LINEAR: Smoothest appearance with minimal aliasing in distant textures due to trilinear filtering and bilinear pixel sampling.</figcaption>
         </figure>
         </div>
 
