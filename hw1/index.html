@@ -166,6 +166,13 @@
         <h3>Algorithm Efficiency</h3>
         <p>This algorithm is designed to be as efficient as possible without skipping necessary evaluations. In terms of <strong>spatial scope</strong>, the algorithm never iterates outside the triangle's bounding box. For <strong>time complexity</strong>, each pixel is tested in constant time, so total cost scales with bounding box area. The algorithm's O(bbox_area) complexity ensures efficient rendering, as each pixel is tested exactly once. Most importantly, there is <strong>no wasted computation</strong> - every pixel tested might contribute to the final render.</p>
 
+        <h3>Extra Credit: Performance Optimizations</h3>
+        <p>Beyond the basic bounding box optimization, I implemented several performance improvements in the supersampling rasterization pipeline. Instead of computing edge functions from scratch for each sample point, I implemented incremental evaluation using the fact that edge functions are linear. For horizontal traversal, the edge function value changes by a constant <code>(y1 - y0)</code>, and for vertical traversal by <code>-(x1 - x0)</code>. This eliminates redundant multiplications and significantly reduces computational overhead.</p>
+
+        <p>I also streamlined the sample buffer access pattern to minimize address calculations. By precomputing base indices and using incremental offsets, the implementation reduces the number of arithmetic operations needed for each sample location in the expanded buffer. Additionally, for pixels that are clearly outside the triangle (all edge functions have the same negative sign), the algorithm can skip processing remaining sub-pixel samples within that pixel, providing performance gains especially for larger triangles with high supersampling rates.</p>
+
+        <p>These incremental algorithm optimizations demonstrate how mathematical properties of geometric functions can be leveraged to achieve significant performance improvements while maintaining identical visual output to the basic implementation.</p>
+
         <h3>Task 1 Screenshot</h3>
         <div style="display: flex; flex-direction: column; align-items: center;">
             <img src="TASK_1_fixed.png" width="600px"/>
@@ -254,7 +261,7 @@
         <p>To illustrate barycentric coordinates visually, we consider a triangle with three differently colored vertices. Each point inside the triangle displays a color that is the weighted average of the three vertex colors- the weights being the barycentric coordinates themselves.</p>
 
         <div style="display: flex; flex-direction: column; align-items: center;">
-            <img src="barycentric_demo.png" width="400px"/>
+            <img src="screenshot_7-11_2-37-34.png" width="400px"/>
             <figcaption>Triangle with red, green, and blue vertices showing smooth color interpolation using barycentric coordinates</figcaption>
         </div>
 
