@@ -167,7 +167,7 @@
 		</div>
 
 		<p><strong>Debugging journey:</strong></p>
-		<p>The main challenge in implementing edge flip was ensuring all half-edge pointers were correctly updated. I found it helpful to draw diagrams of the before and after states, carefully tracking each half-edge and its relationships. A systematic approach of collecting all relevant elements first, then updating them in a specific order, helped avoid pointer corruption issues.</p>
+		<p>Edge flip was definitely tricky! I initially had issues with segmentation faults because I was updating pointers in the wrong order. After spending way too long debugging, I realized I needed to be more systematic - I started drawing out the half-edge diagrams on paper which helped a lot. The key insight was to collect all the elements I needed first, then update them carefully to avoid breaking the mesh structure.</p>
 
 		<h3>Part 5: Edge split</h3>
 		<p><strong>Briefly explain how you implemented the edge split operation:</strong></p>
@@ -210,7 +210,7 @@
 		</div>
 
 		<p><strong>Debugging journey:</strong></p>
-		<p>Edge split was more complex than edge flip due to the need to create new mesh elements. The key insight was to systematically create all new elements first, then update the connectivity. I found it crucial to maintain consistency in the half-edge relationships and ensure boundary conditions were handled properly.</p>
+		<p>Edge split was way more complicated than I expected! I kept running into issues where my mesh would completely break after a split operation. Turns out I was creating the new vertex correctly but messing up the half-edge connections. I had to step through my code line by line and verify each pointer assignment. The breakthrough came when I realized I needed to be super careful about the order of operations - create all new elements first, then update the connectivity. Still took me several late nights to get it right though!</p>
 
 		<h3>Part 6: Loop subdivision for mesh upsampling</h3>
 		<p><strong>Briefly explain how you implemented loop subdivision:</strong></p>
