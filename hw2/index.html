@@ -301,74 +301,74 @@ bool isBoundary = halfedge->twin()->face()->isBoundary();
 
 		<p>1. Vertex degree caching to eliminate redundant calculations:</p>
 		<pre><code>// Original implementation - recalculating for each operation
-			
-int countVertexNeighbors(VertexIter v) {
-  int n = 0;
-  HalfedgeCIter h = v->halfedge();
-  do {
-    n++;
-    h = h->twin()->next();
-  } while (h != v->halfedge());
-  return n;
-}
 
-// Optimized implementation - pre-compute and store results
-std::unordered_map&lt;VertexIter, int, VertexIterHasher&gt; vertexDegreeCache;
-for (VertexIter v = mesh.verticesBegin(); v != mesh.verticesEnd(); v++) {
-  int degree = 0;
-  HalfedgeCIter h = v->halfedge();
-  do {
-    degree++;
-    h = h->twin()->next();
-  } while (h != v->halfedge());
-  vertexDegreeCache[v] = degree;
-}</code></pre>
+		int countVertexNeighbors(VertexIter v) {
+		int n = 0;
+		HalfedgeCIter h = v->halfedge();
+		do {
+			n++;
+			h = h->twin()->next();
+		} while (h != v->halfedge());
+		return n;
+		}
 
-		<p>2. Efficient weight calculation using a lookup table for common cases:</p>
-		<pre><code>// Original implementation - calculating for every vertex
-double u = 3.0 / (8.0 * n);
+		// Optimized implementation - pre-compute and store results
+		std::unordered_map&lt;VertexIter, int, VertexIterHasher&gt; vertexDegreeCache;
+		for (VertexIter v = mesh.verticesBegin(); v != mesh.verticesEnd(); v++) {
+		int degree = 0;
+		HalfedgeCIter h = v->halfedge();
+		do {
+			degree++;
+			h = h->twin()->next();
+		} while (h != v->halfedge());
+		vertexDegreeCache[v] = degree;
+		}</code></pre>
 
-// Optimized implementation - using precomputed values
-static const double weights[] = {
-  0.0, 0.0, 0.0,      // indices 0,1,2 (not used)
-  3.0/16.0,           // n=3
-  1.0/8.0,            // n=4
-  3.0/40.0,           // n=5 
-  3.0/48.0,           // n=6
-  3.0/56.0,           // n=7
-  3.0/64.0            // n=8
-};
+				<p>2. Efficient weight calculation using a lookup table for common cases:</p>
+				<pre><code>// Original implementation - calculating for every vertex
+		double u = 3.0 / (8.0 * n);
 
-double u;
-if (n <= 8) {
-  u = weights[n];  // direct lookup for common cases
-} else {
-  u = 3.0 / (8.0 * n);  // fallback calculation
-}</code></pre>
+		// Optimized implementation - using precomputed values
+		static const double weights[] = {
+		0.0, 0.0, 0.0,      // indices 0,1,2 (not used)
+		3.0/16.0,           // n=3
+		1.0/8.0,            // n=4
+		3.0/40.0,           // n=5 
+		3.0/48.0,           // n=6
+		3.0/56.0,           // n=7
+		3.0/64.0            // n=8
+		};
 
-		<p>3. Improved memory access patterns with batch processing:</p>
-		<pre><code>// Original implementation - interleaved gathering and modification
-for (EdgeIter e = mesh.edgesBegin(); e != mesh.edgesEnd(); e++) {
-  if (shouldFlip(e)) {
-    mesh.flipEdge(e);  // potentially invalidates iterators
-  }
-}
+		double u;
+		if (n <= 8) {
+		u = weights[n];  // direct lookup for common cases
+		} else {
+		u = 3.0 / (8.0 * n);  // fallback calculation
+		}</code></pre>
 
-// Optimized implementation - separation of concerns
-std::vector&lt;EdgeIter&gt; edgesToFlip;
-edgesToFlip.reserve(mesh.nEdges());  // pre-allocate for efficiency
+				<p>3. Improved memory access patterns with batch processing:</p>
+				<pre><code>// Original implementation - interleaved gathering and modification
+		for (EdgeIter e = mesh.edgesBegin(); e != mesh.edgesEnd(); e++) {
+		if (shouldFlip(e)) {
+			mesh.flipEdge(e);  // potentially invalidates iterators
+		}
+		}
 
-// First pass - identify edges to flip
-for (EdgeIter e = mesh.edgesBegin(); e != mesh.edgesEnd(); e++) {
-  if (shouldFlip(e)) {
-    edgesToFlip.push_back(e);
-  }
-}
+		// Optimized implementation - separation of concerns
+		std::vector&lt;EdgeIter&gt; edgesToFlip;
+		edgesToFlip.reserve(mesh.nEdges());  // pre-allocate for efficiency
 
-// Second pass - perform flips
-for (EdgeIter e : edgesToFlip) {
-  mesh.flipEdge(e);
-}</code></pre>
+		// First pass - identify edges to flip
+		for (EdgeIter e = mesh.edgesBegin(); e != mesh.edgesEnd(); e++) {
+		if (shouldFlip(e)) {
+			edgesToFlip.push_back(e);
+		}
+		}
+
+		// Second pass - perform flips
+		for (EdgeIter e : edgesToFlip) {
+		mesh.flipEdge(e);
+		}</code></pre>
 
 		<p><strong>Observations on how meshes behave after loop subdivision:</strong></p>
 		<p>After loop subdivision, sharp corners and edges tend to become rounded and smooth. This is because the subdivision algorithm averages vertex positions with their neighbors, which has a smoothing effect. Sharp features can be preserved to some extent by pre-splitting edges around those features, which gives them more "weight" in the averaging process.</p>
