@@ -53,7 +53,6 @@
 		<h2>Section I: Bezier Curves and Surfaces</h2>
 
 		<h3>Part 1: Bezier curves with 1D de Casteljau subdivision</h3>
-		<p><strong>Briefly explain de Casteljau's algorithm and how you implemented it:</strong></p>
 		<p>De Casteljau's algorithm is a recursive method for evaluating Bezier curves at any parameter value t. The algorithm works by repeatedly performing linear interpolation between consecutive control points, reducing the number of points by one at each level until a single point remains on the curve.</p>
 
 		<p>My implementation takes a set of control points and a parameter t, then computes the intermediate points by linear interpolation: for each pair of consecutive points, I calculate (1-t) * p_i + t * p_{i+1}. This process continues recursively until only one point remains, which is the point on the Bezier curve at parameter t.</p>
@@ -103,7 +102,6 @@
 		</figure>
 
 		<h3>Part 2: Bezier surfaces with separable 1D de Casteljau</h3>
-		<p><strong>Briefly explain how de Casteljau algorithm extends to Bezier surfaces:</strong></p>
 		<p>Bezier surfaces extend the concept of Bezier curves to two dimensions using a tensor product approach. A Bezier surface is defined by a grid of control points and evaluated using two parameters u and v.</p>
 
 		<p>My implementation uses separable 1D de Casteljau subdivision, which means I first apply de Casteljau's algorithm along one parametric direction (say u) for each row of control points, then apply it again along the other direction (v) using the results from the first step. This approach reduces the 2D surface evaluation problem to multiple 1D curve evaluations.</p>
@@ -119,7 +117,6 @@
 		<h2>Section II: Triangle Meshes and Half-Edge Data Structure</h2>
 
 		<h3>Part 3: Area-weighted vertex normals</h3>
-		<p><strong>Briefly explain how you implemented the area-weighted vertex normals:</strong></p>
 		<p>Area-weighted vertex normals provide smooth shading for triangle meshes by computing a normal vector at each vertex that represents the average orientation of all adjacent faces, weighted by their areas.</p>
 
 		<p>My implementation iterates through all faces incident to a vertex using the half-edge data structure. For each face, I compute the face normal using the cross product of two edge vectors, and the face area using half the magnitude of this cross product. The vertex normal is then the sum of all face normals weighted by their respective areas, normalized to unit length.</p>
@@ -143,7 +140,6 @@
 		</div>
 
 		<h3>Part 4: Edge flip</h3>
-		<p><strong>Briefly explain how you implemented the edge flip operation:</strong></p>
 		<p>Edge flip is a fundamental mesh operation that changes the local topology by "flipping" an edge between two adjacent triangles. Given an edge connecting two vertices, the flip operation removes this edge and creates a new edge connecting the two vertices that were previously unconnected.</p>
 
 		<p>My implementation uses the half-edge data structure to carefully reassign all the pointers involved in the operation. The key is to identify all the mesh elements (vertices, edges, faces, half-edges) that will be affected and systematically update their connectivity. I first collect all the relevant mesh elements, then reassign the half-edge pointers to reflect the new topology after the flip.</p>
@@ -170,7 +166,6 @@
 		<p>Edge flip was definitely tricky! I initially had issues with segmentation faults because I was updating pointers in the wrong order. After spending way too long debugging, I realized I needed to be more systematic - I started drawing out the half-edge diagrams on paper which helped a lot. The key insight was to collect all the elements I needed first, then update them carefully to avoid breaking the mesh structure.</p>
 
 		<h3>Part 5: Edge split</h3>
-		<p><strong>Briefly explain how you implemented the edge split operation:</strong></p>
 		<p>Edge split is another fundamental mesh operation that inserts a new vertex at the midpoint of an edge and creates new triangles to maintain a valid triangulation. This operation increases the mesh resolution locally while preserving the overall shape.</p>
 
 		<p>My implementation creates a new vertex at the edge midpoint and adds the necessary new edges and faces. Using the half-edge data structure, I carefully manage all the pointer updates: the original edge is replaced by two new edges connecting to the new vertex, and the two adjacent triangles are each split into two new triangles. This requires creating new half-edges and updating all the connectivity information.</p>
