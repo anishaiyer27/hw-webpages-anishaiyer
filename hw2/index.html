@@ -48,16 +48,18 @@
 		-->
 
 		<h2>Overview</h2>
-		In this homework, I implemented geometric algorithms for working with Bezier curves and surfaces, as well as mesh manipulation techniques using the half-edge data structure. The first section focused on de Casteljau's algorithm for evaluating Bezier curves and extending it to Bezier surfaces through separable 1D subdivision. The second section involved implementing operations on triangle meshes, including computing area-weighted vertex normals for smooth shading, edge flip and split operations for mesh topology modification, and Loop subdivision for mesh upsampling. This homework provided deep insights into fundamental computational geometry concepts and their practical applications in computer graphics, particularly how mathematical constructs like Bezier curves translate into smooth surfaces and how mesh operations enable sophisticated 3D modeling workflows.
+		In this homework, I worked on geometric algorithms for Bézier curves and surfaces, along with mesh editing operations using the half-edge data structure. The first part was about implementing de Casteljau’s algorithm to evaluate Bézier curves and then extending the same idea to Bézier surfaces through separable 1D subdivision. The second part focused on working with triangle meshes, computing area-weighted vertex normals for smoother shading, implementing edge flip and edge split operations to change the mesh topology, and applying Loop subdivision to upsample the mesh.
 
+		This assignment helped me improve my intuition for how basic computational geometry concepts show up in computer graphics. It was especially interesting to see how something as simple as repeated interpolation can generate smooth curves and surfaces, and how local mesh operations can be combined to build more advanced modeling techniques.
+		
 		<h2>Section I: Bezier Curves and Surfaces</h2>
 
 		<h3>Part 1: Bezier curves with 1D de Casteljau subdivision</h3>
-		<p>De Casteljau's algorithm is a recursive method for evaluating Bezier curves at any parameter value t. The algorithm works by repeatedly performing linear interpolation between consecutive control points, reducing the number of points by one at each level until a single point remains on the curve.</p>
+		<p>De Casteljau’s algorithm is a recursive way to evaluate a Bézier curve at a specific parameter t. It works by repeatedly interpolating between consecutive control points. Each step reduces the number of points by one, and after enough steps, a single point remains, which is the point on the curve at that t value.</p>
 
-		<p>My implementation takes a set of control points and a parameter t, then computes the intermediate points by linear interpolation: for each pair of consecutive points, I calculate (1-t) * p_i + t * p_{i+1}. This process continues recursively until only one point remains, which is the point on the Bezier curve at parameter t.</p>
+		<p>In my implementation, I start with a list of control points and a parameter t. For each adjacent pair of points, I compute a new point as (1-t) * p_i + t * p_{i+1}. This process continues recursively until only one point remains, which is the point on the Bezier curve at parameter t.</p>
 
-		<p>The beauty of this algorithm lies in its geometric interpretation - each level of subdivision represents a geometric construction that visually demonstrates how the curve is formed from its control polygon.</p>
+		<p>The beauty of this algorithm lies in its geometric interpretation. Each level of subdivision represents a geometric construction that visually demonstrates how the curve is formed from its control polygon. Visually, we can see how the control polygon gradually “shrinks” and pulls the curve into shape.</p>
 
 		<p><strong>Screenshots of each step/level of evaluation (using a 6-control-point Bezier curve):</strong></p>
 		<div style="display: flex; flex-direction: column; align-items: center;">
@@ -102,11 +104,9 @@
 		</figure>
 
 		<h3>Part 2: Bezier surfaces with separable 1D de Casteljau</h3>
-		<p>Bezier surfaces extend the concept of Bezier curves to two dimensions using a tensor product approach. A Bezier surface is defined by a grid of control points and evaluated using two parameters u and v.</p>
-
-		<p>My implementation uses separable 1D de Casteljau subdivision, which means I first apply de Casteljau's algorithm along one parametric direction (say u) for each row of control points, then apply it again along the other direction (v) using the results from the first step. This approach reduces the 2D surface evaluation problem to multiple 1D curve evaluations.</p>
-
-		<p>The process involves: 1) For each row of the control point grid, use de Casteljau with parameter u to get intermediate points, 2) Collect these intermediate points to form a new curve, 3) Apply de Casteljau again with parameter v to this new curve to get the final surface point. This separable approach is both computationally efficient and conceptually clear.</p>
+		<p>Bezier surfaces extend the concept of Bezier curves to two dimensions using a tensor product approach. A Bezier surface is defined by a grid of control points and evaluated using two parameters u and v.
+			My implementation uses separable 1D de Casteljau subdivision. First, we apply de Casteljau's algorithm along one parametric direction (say u) for each row of control points, then we apply it again along the other direction (v) using the results from the first step. This approach reduces the 2D surface evaluation problem to multiple 1D curve evaluations.</p>
+			For each row of the control point grid, we use de Casteljau with parameter u to get intermediate points. Then, we collect these intermediate points to form a new curve. Finally, we apply de Casteljau again with parameter v to this new curve to get the final surface point. This separable approach is both computationally efficient and conceptually clear.</p>
 
 		<p><strong>Screenshot of bez/teapot.bez evaluated by your implementation:</strong></p>
 		<figure>
@@ -117,11 +117,11 @@
 		<h2>Section II: Triangle Meshes and Half-Edge Data Structure</h2>
 
 		<h3>Part 3: Area-weighted vertex normals</h3>
-		<p>Area-weighted vertex normals provide smooth shading for triangle meshes by computing a normal vector at each vertex that represents the average orientation of all adjacent faces, weighted by their areas.</p>
+		<p>Area-weighted vertex normals provide smooth shading for triangle meshes by computing a normal vector at each vertex that represents the average orientation of all adjacent faces, weighted by their areas.
+			This technique helps to create a more visually appealing representation of the surface by ensuring that the shading is influenced more by larger, more significant faces rather than smaller ones.
+			This implementation iterates through all faces incident to a vertex using the half-edge data structure. For each face, I compute the face normal using the cross product of two edge vectors, and the face area using half the magnitude of this cross product. The vertex normal is then the sum of all face normals weighted by their respective areas, normalized to unit length.</p>
 
-		<p>My implementation iterates through all faces incident to a vertex using the half-edge data structure. For each face, I compute the face normal using the cross product of two edge vectors, and the face area using half the magnitude of this cross product. The vertex normal is then the sum of all face normals weighted by their respective areas, normalized to unit length.</p>
-
-		<p>This approach produces visually pleasing smooth shading because larger faces have more influence on the vertex normal, which better represents the local surface geometry. The area weighting prevents small triangles from having disproportionate influence on the shading, resulting in more natural-looking surfaces.</p>
+		<p>With this approach, I am able to produce visually pleasing smooth shading that avoids sharp lighting transitions because larger faces have more influence on the vertex normal, which better represents the local surface geometry. The area weighting prevents small triangles from having disproportionate influence on the shading, resulting in more natural-looking surfaces.</p>
 
 		<p><strong>Screenshots of dae/teapot.dae comparing teapot shading with and without vertex normals:</strong></p>
 		<div style="display: flex; flex-direction: column; align-items: center;">
@@ -166,11 +166,12 @@
 		<p>Edge flip was definitely tricky! I initially had issues with segmentation faults because I was updating pointers in the wrong order. After spending way too long debugging, I realized I needed to be more systematic - I started drawing out the half-edge diagrams on paper which helped a lot. The key insight was to collect all the elements I needed first, then update them carefully to avoid breaking the mesh structure.</p>
 
 		<h3>Part 5: Edge split</h3>
-		<p>Edge split is another fundamental mesh operation that inserts a new vertex at the midpoint of an edge and creates new triangles to maintain a valid triangulation. This operation increases the mesh resolution locally while preserving the overall shape.</p>
 
-		<p>My implementation creates a new vertex at the edge midpoint and adds the necessary new edges and faces. Using the half-edge data structure, I carefully manage all the pointer updates: the original edge is replaced by two new edges connecting to the new vertex, and the two adjacent triangles are each split into two new triangles. This requires creating new half-edges and updating all the connectivity information.</p>
+		<p>Edge split is a fundamental mesh operation that inserts a new vertex at the midpoint of an edge and retriangulates the local area to maintain a valid mesh. This operation increases mesh resolution locally while preserving the overall shape and topology.
+			My implementation first collects all mesh elements around the target edge, then creates the new vertex, edges, faces, and halfedges needed for the split. I update all pointers carefully using a combination of setNeighbors and explicit assignments. I ensure that each vertex's outgoing halfedge points to a halfedge where h->vertex() == v, which is crucial for mesh consistency.</p>
 
-		<p>Edge split is essential for adaptive mesh refinement and is a key component in subdivision algorithms. Unlike edge flip, this operation increases the number of vertices and faces in the mesh, allowing for higher geometric detail.</p>
+		<p>To debug, I added checks after every split and flip operation, printing errors whenever mesh invariants like “Vertex halfedge not outgoing” or “Halfedge twin mismatch” occurred. This helped me trace pointer assignments and fix subtle bugs by verifying that all incident halfedges for each vertex were correctly set. Removing unnecessary null pointer checks once stable improved the code clarity. I also used a robust loop to assign outgoing halfedges, which significantly improved stability. I validated the mesh interactively and with automated checks after every update to ensure no segmentation faults or pointer errors occurred. The implementation handles only interior edges by default, but I included boundary edge splitting support as extra credit and verified it with additional tests and screenshots</p>
+		<p>Edge split is essential for adaptive mesh refinement and subdivision algorithms. Unlike edge flip, which only modifies connectivity, edge split increases vertex and face counts, allowing more geometric detail and finer control over mesh shape.</p>
 
 		<p><strong>Screenshots of a mesh before and after some edge splits:</strong></p>
 		<div style="display: flex; flex-direction: column; align-items: center;">
@@ -244,19 +245,19 @@
 			<li>Implemented batch processing for edge operations to improve memory access patterns</li>
 			<li>Created a lookup table for common weight calculations:</li>
 			<pre><code>
-// Efficient weight calculation using precomputed values
-double u;
-if (n == 3) u = 3.0/16.0;        // common case
-else if (n == 4) u = 1.0/8.0;    // common case  
-else if (n == 5) u = 5.0/64.0;   // common case
-else if (n == 6) u = 3.0/44.0;   // common case
-else u = 3.0/(8.0 * n);          // general case
+			// Efficient weight calculation using precomputed values
+			double u;
+			if (n == 3) u = 3.0/16.0;        // common case
+			else if (n == 4) u = 1.0/8.0;    // common case  
+			else if (n == 5) u = 5.0/64.0;   // common case
+			else if (n == 6) u = 3.0/44.0;   // common case
+			else u = 3.0/(8.0 * n);          // general case
 			</code></pre>
 			</li>
 			<li>Improved boundary checking with direct halfedge-twin inspection:</li>
 			<pre><code>
-// Direct boundary check avoiding full edge ring traversal
-bool isBoundary = halfedge->twin()->face()->isBoundary();
+			// Direct boundary check avoiding full edge ring traversal
+			bool isBoundary = halfedge->twin()->face()->isBoundary();
 			</code></pre>
 			</li>
 			<li>Pre-allocated memory for container data structures</li>
