@@ -163,7 +163,8 @@
 		</div>
 
 		<p><strong>Debugging journey:</strong></p>
-		<p>Edge flip was definitely tricky! I initially had issues with segmentation faults because I was updating pointers in the wrong order. After spending way too long debugging, I realized I needed to be more systematic - I started drawing out the half-edge diagrams on paper which helped a lot. The key insight was to collect all the elements I needed first, then update them carefully to avoid breaking the mesh structure.</p>
+<p>Edge flip was definitely tricky! I initially had issues with segmentation faults because I was updating pointers in the wrong order. After spending way too long debugging, I realized I needed to be more systematic - I started drawing out the half-edge diagrams on paper which helped a lot. The key insight was to collect all the elements I needed first, then update them carefully to avoid breaking the mesh structure.</p>
+<p>Through this process, I learned the importance of matching conventions between different mesh operations. For example, I refactored my <code>flipEdge</code> implementation to use the same variable naming and structure as <code>splitEdge</code>, which made the code much easier to reason about and debug. I also discovered that the reference solution for <code>flipEdge</code> was more exhaustive, updating all ten relevant halfedges and checking boundaries for each. Incorporating these checks and assignments made my implementation more robust and less prone to subtle mesh errors. I validated my changes by running mesh validation after every operation and by interactively testing edge flips on a variety of meshes, including those with complex connectivity. This iterative debugging and refactoring process was essential for achieving a reliable and maintainable solution.</p>
 
 		<h3>Part 5: Edge split</h3>
 
@@ -206,8 +207,18 @@
 		</div>
 
 		<p><strong>Debugging journey:</strong></p>
-		<p>Edge split required significantly more debugging than I had initially expected. My initial implementation created the new vertex and elements, but I kept running into mesh validation errors like "Vertex halfedge not outgoing" and "Halfedge twin mismatch" after split operations. Debugging this required a deep dive into the half-edge data structure and careful tracking of all pointer assignments. I iteratively fixed issues with reused halfedges and twin relationships, and realized that hardcoding outgoing halfedge assignments for each vertex was fragile and error-prone. The breakthrough came when I switched to a robust loop that assigns each vertex's halfedge pointer by searching for an outgoing halfedge among all incident halfedges, ensuring correctness for all mesh configurations. I also added defensive checks and debug output to catch any assignment failures. This process involved repeatedly validating the mesh after each change, running interactive tests, and carefully analyzing the connectivity after splits and flips. Ultimately, the debugging journey taught me the importance of systematic pointer management, defensive programming, and validating mesh invariants at every step. It took several late nights and a lot of patience, but the mesh operations now work reliably and pass all validation checks, even under loop subdivision and interactive editing.</p>
-
+		<p>
+		Implementing <code>splitEdge</code> turned out to be far more challenging than I initially expected. While my first implementation created the new vertex and halfedge elements, I kept encountering mesh validation errors such as “Vertex halfedge not outgoing” and “Halfedge twin mismatch” after performing the split. Debugging these issues required a deep dive into the half-edge data structure, very careful tracking of every pointer assignment, and frequent reference to lecture slides and diagrams to clarify the relationships between halfedges, vertices, edges, and faces.
+		</p>
+		<p>
+		Through iterative fixes, I addressed problems caused by reused halfedges and incorrectly assigned twin relationships. I realized that hardcoding which outgoing halfedge each vertex should point to was fragile and prone to errors. The real breakthrough came when I replaced this with a robust loop that searches each vertex’s incident halfedges for a valid outgoing one, ensuring correctness across different mesh configurations. To help catch subtle issues earlier, I also added defensive checks and debug output to verify assumptions as the mesh was updated.
+		</p>
+		<p>
+		Throughout the process, I found that keeping consistent code conventions between <code>splitEdge</code> and <code>flipEdge</code> significantly simplified debugging. I also learned to precompute data and batch edge operations before modifying the mesh, which reduced iterator invalidation and made the algorithm more robust. When patch failures happened during refactoring, I resolved them by carefully comparing code context and restructuring it to match expected patterns.
+		</p>
+		<p>
+		This experience reinforced how critical systematic pointer management, defensive programming, and incremental validation are when working with complex data structures like half-edge meshes. After many late nights of careful debugging and testing, supported by diagramming and revisiting course materials, the mesh operations now run reliably and pass all validation checks—even during loop subdivision and interactive editing.
+		</p>
 		<h3>Part 6: Loop subdivision for mesh upsampling</h3>
 		<p><strong>Briefly explain how you implemented loop subdivision:</strong></p>
 		<p>Loop subdivision is a surface subdivision scheme that creates smoother, higher-resolution meshes through repeated refinement. The algorithm combines topology refinement (splitting every triangle into four) with geometric smoothing using weighted averages of neighboring vertices.</p>
