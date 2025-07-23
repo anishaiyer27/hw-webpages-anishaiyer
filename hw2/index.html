@@ -164,11 +164,11 @@
 
 		<p><strong>Debugging journey:</strong></p>
 
-<p>Edge flip was a particularly challenging operation to implement robustly. Early versions of my code suffered from segmentation faults and mesh validation errors, often due to updating pointers in the wrong order or missing key assignments. To address these issues, I adopted a systematic approach: I carefully diagrammed the half-edge relationships, collected all relevant mesh elements before making any changes, and updated pointers in a controlled sequence. This methodical process helped prevent breaking the mesh structure and made debugging more manageable.</p>
+		<p>Edge flip was a particularly challenging operation to implement robustly. Early versions of my code suffered from segmentation faults and mesh validation errors, often due to updating pointers in the wrong order or missing key assignments. To address these issues, I adopted a systematic approach: I carefully diagrammed the half-edge relationships, collected all relevant mesh elements before making any changes, and updated pointers in a controlled sequence. This methodical process helped prevent breaking the mesh structure and made debugging more manageable.</p>
 
-<p>As the project progressed, I realized the importance of consistency between mesh operations. I refactored <code>flipEdge</code> to match the conventions and variable naming used in <code>splitEdge</code>, which improved readability and reduced errors. Through comparison with reference solutions, I identified that a more exhaustive approach was needed—updating all ten relevant halfedges and checking boundaries for each. Incorporating these additional checks and assignments made my implementation more robust and less prone to subtle mesh errors, especially in complex mesh configurations.</p>
+		<p>As the project progressed, I realized the importance of consistency between mesh operations. I refactored <code>flipEdge</code> to match the conventions and variable naming used in <code>splitEdge</code>, which improved readability and reduced errors. Through comparison with reference solutions, I identified that a more exhaustive approach was needed—updating all ten relevant halfedges and checking boundaries for each. Incorporating these additional checks and assignments made my implementation more robust and less prone to subtle mesh errors, especially in complex mesh configurations.</p>
 
-<p>Throughout the debugging process, I relied on mesh validation after every operation and interactive testing on a variety of meshes. When patch failures occurred during code refactoring, I diagnosed the issues by comparing code context and manually editing the code to match the expected structure. This experience reinforced the value of systematic pointer management, defensive programming, and incremental validation. By maintaining a professional and methodical approach, I was able to achieve a reliable and maintainable solution for edge flips that performs well even under repeated subdivision and editing.</p>
+		<p>Throughout the debugging process, I relied on mesh validation after every operation and interactive testing on a variety of meshes. When patch failures occurred during code refactoring, I diagnosed the issues by comparing code context and manually editing the code to match the expected structure. This experience reinforced the value of systematic pointer management, defensive programming, and incremental validation. By maintaining a professional and methodical approach, I was able to achieve a reliable and maintainable solution for edge flips that performs well even under repeated subdivision and editing.</p>
 
 		<h3>Part 5: Edge split</h3>
 
@@ -227,57 +227,35 @@
 		<p><strong>Briefly explain how you implemented loop subdivision:</strong></p>
 		<p>Loop subdivision is a surface subdivision scheme that creates smoother, higher-resolution meshes through repeated refinement. The algorithm combines topology refinement (splitting every triangle into four) with geometric smoothing using weighted averages of neighboring vertices.</p>
 
-		<p>My implementation follows the Loop subdivision rules: 1) Compute new positions for existing vertices using a weighted average of neighboring vertices, 2) Compute positions for new vertices that will be inserted at edge midpoints, 3) Split every edge to insert new vertices, 4) Flip certain edges to achieve the correct connectivity pattern. The weights are carefully chosen to ensure the limiting surface has desirable smoothness properties.</p>
 
-		<p>Initially, my implementation was very straightforward but extremely slow on complex meshes. I had to optimize it significantly to make it usable for interactive editing. Key optimizations included:</p>
-		<ul>
-			<li>Caching vertex degrees and neighbors to avoid redundant traversals</li>
-			<li>Pre-computing and storing all new vertex positions before modifying the mesh</li>
-			<li>Using direct boundary checks instead of costly iterative methods</li>
-			<li>Hardcoding special weight cases (e.g., for vertices with 3, 4, or 6 neighbors)</li>
-			<li>Batching edge operations to reduce redundant updates</li>
-			<li>Minimizing dynamic memory allocations</li>
-		</ul>
+		<p>My implementation follows the Loop subdivision rules: first, I compute new positions for existing vertices using a weighted average of their neighbors. Next, I calculate positions for new vertices that will be inserted at edge midpoints. Then, I split every edge to insert these new vertices, and finally, flip certain edges to achieve the correct connectivity pattern. The weights are chosen to ensure the limiting surface is smooth and visually appealing.</p>
 
-		<p>The beauty of Loop subdivision lies in its ability to create smooth surfaces from coarse triangle meshes. Each subdivision step quadruples the number of triangles while bringing the mesh closer to a smooth limiting surface. This makes it invaluable for creating high-quality models from simple base meshes.</p>
+		Initially, my implementation was very straightforward but extremely slow on complex meshes. To make it usable for interactive editing, I had to optimize it significantly. I began by caching vertex degrees and neighbors to avoid redundant traversals, which reduced unnecessary computations. I also pre-computed and stored all new vertex positions before modifying the mesh, ensuring that data consistency was maintained throughout the process. Direct boundary checks replaced costly iterative methods, and I hardcoded special weight cases for vertices with 3, 4, or 6 neighbors to speed up calculations. Batching edge operations helped reduce redundant updates, and minimizing dynamic memory allocations further improved performance. The beauty of Loop subdivision lies in its ability to create smooth surfaces from coarse triangle meshes; each subdivision step quadruples the number of triangles, bringing the mesh closer to a smooth limiting surface. This makes it invaluable for creating high-quality models from simple base meshes.</p>
 
 		<p><strong>Debugging and optimization process:</strong></p>
-		<p>My initial implementation of Loop subdivision worked well on simple meshes like the cube, but encountered significant performance issues with more complex models like the teapot, causing the application to become unresponsive. After analyzing the code, I identified several key performance bottlenecks:</p>
-		
-		<ul>
-			<li>Redundant calculation of vertex neighbor counts throughout different stages of the algorithm</li>
-			<li>Mesh modification during iteration, causing iterator invalidation issues</li>
-			<li>Inefficient memory access patterns leading to poor cache utilization</li>
-			<li>Excessive creation of temporary data structures within tight loops</li>
-			<li>Costly boundary checks that required traversing entire edge rings</li>
-		</ul>
+
+		<p>My initial implementation of Loop subdivision worked well on simple meshes like the cube, but it encountered significant performance issues with more complex models such as the teapot, often causing the application to become unresponsive. After analyzing the code, I identified several key performance bottlenecks: redundant calculation of vertex neighbor counts throughout different stages of the algorithm, mesh modification during iteration which led to iterator invalidation issues, inefficient memory access patterns that resulted in poor cache utilization, excessive creation of temporary data structures within tight loops, and costly boundary checks that required traversing entire edge rings.</p>
+
+		To address these issues, I implemented a series of optimizations. I cached vertex degrees to eliminate redundant neighbor counting and separated position calculation from mesh modification to maintain data consistency. Batch processing for edge operations improved memory access patterns, and I created a lookup table for common weight calculations, such as:
+		<pre><code>
+		// Efficient weight calculation using precomputed values
+		double u;
+		if (n == 3) u = 3.0/16.0;        // common case
+		else if (n == 4) u = 1.0/8.0;    // common case  
+		else if (n == 5) u = 5.0/64.0;   // common case
+		else if (n == 6) u = 3.0/44.0;   // common case
+		else u = 3.0/(8.0 * n);          // general case
+		</code></pre>
+		I also improved boundary checking by using direct halfedge-twin inspection:
+		<pre><code>
+		// Direct boundary check avoiding full edge ring traversal
+		bool isBoundary = halfedge->twin()->face()->isBoundary();
+		</code></pre>
+		Pre-allocating memory for container data structures and adding early-exit paths for special boundary cases further enhanced performance. These optimizations successfully reduced the runtime complexity from O(n²) to O(n), resulting in significant performance improvements. The subdivision process for the teapot model decreased from over 20 seconds to approximately 1 second, while the beetle model, which previously caused the program to crash, could now be processed in about 10 seconds. These improvements made the algorithm practical for interactive editing.
 
 		<p>To address these issues, I implemented the following optimizations:</p>
 		
-		<ul>
-			<li>Implemented vertex degree caching to eliminate redundant neighbor counting</li>
-			<li>Separated position calculation from mesh modification to maintain data consistency</li>
-			<li>Implemented batch processing for edge operations to improve memory access patterns</li>
-			<li>Created a lookup table for common weight calculations:</li>
-			<pre><code>
-			// Efficient weight calculation using precomputed values
-			double u;
-			if (n == 3) u = 3.0/16.0;        // common case
-			else if (n == 4) u = 1.0/8.0;    // common case  
-			else if (n == 5) u = 5.0/64.0;   // common case
-			else if (n == 6) u = 3.0/44.0;   // common case
-			else u = 3.0/(8.0 * n);          // general case
-			</code></pre>
-			</li>
-			<li>Improved boundary checking with direct halfedge-twin inspection:</li>
-			<pre><code>
-			// Direct boundary check avoiding full edge ring traversal
-			bool isBoundary = halfedge->twin()->face()->isBoundary();
-			</code></pre>
-			</li>
-			<li>Pre-allocated memory for container data structures</li>
-			<li>Added early-exit paths for special boundary cases</li>
-		</ul>
+		<p>To resolve these problems, I implemented vertex degree caching to eliminate redundant neighbor counting and separated position calculation from mesh modification to maintain data consistency. Batch processing for edge operations improved memory access patterns and reduced the risk of iterator invalidation. For weight calculations, I created a lookup table for common cases, such as three, four, five, or six neighbors, and used a general formula for others. Boundary checking was improved by directly inspecting halfedge twins, which avoided full edge ring traversal. I also pre-allocated memory for container data structures and added early-exit paths for special boundary cases. These changes collectively reduced the runtime complexity from O(n²) to O(n), resulting in dramatic performance improvements and making the algorithm suitable for interactive editing.</p>
 
 		<p>These optimizations successfully reduced the runtime complexity from O(n²) to O(n), resulting in significant performance improvements. The subdivision process for the teapot model decreased from over 20 seconds to approximately 1 second, while the beetle model, which previously caused the program to crash, could now be processed in about 10 seconds. These improvements made the algorithm practical for interactive editing.</p>
 
@@ -313,81 +291,12 @@
 		</div>
 
 		<p><strong>Key code optimizations:</strong></p>
-		<p>The following code examples illustrate the most effective optimizations implemented:</p>
 
-		<p>1. Vertex degree caching to eliminate redundant calculations:</p>
-		<pre><code>// Original implementation - recalculating for each operation
-
-		int countVertexNeighbors(VertexIter v) {
-		int n = 0;
-		HalfedgeCIter h = v->halfedge();
-		do {
-			n++;
-			h = h->twin()->next();
-		} while (h != v->halfedge());
-		return n;
-		}
-
-		// Optimized implementation - pre-compute and store results
-		std::unordered_map&lt;VertexIter, int, VertexIterHasher&gt; vertexDegreeCache;
-		for (VertexIter v = mesh.verticesBegin(); v != mesh.verticesEnd(); v++) {
-		int degree = 0;
-		HalfedgeCIter h = v->halfedge();
-		do {
-			degree++;
-			h = h->twin()->next();
-		} while (h != v->halfedge());
-		vertexDegreeCache[v] = degree;
-		}</code></pre>
-
-				<p>2. Efficient weight calculation using a lookup table for common cases:</p>
-				<pre><code>// Original implementation - calculating for every vertex
-		double u = 3.0 / (8.0 * n);
-
-		// Optimized implementation - using precomputed values
-		static const double weights[] = {
-		0.0, 0.0, 0.0,      // indices 0,1,2 (not used)
-		3.0/16.0,           // n=3
-		1.0/8.0,            // n=4
-		3.0/40.0,           // n=5 
-		3.0/48.0,           // n=6
-		3.0/56.0,           // n=7
-		3.0/64.0            // n=8
-		};
-
-		double u;
-		if (n <= 8) {
-		u = weights[n];  // direct lookup for common cases
-		} else {
-		u = 3.0 / (8.0 * n);  // fallback calculation
-		}</code></pre>
-
-				<p>3. Improved memory access patterns with batch processing:</p>
-				<pre><code>// Original implementation - interleaved gathering and modification
-		for (EdgeIter e = mesh.edgesBegin(); e != mesh.edgesEnd(); e++) {
-		if (shouldFlip(e)) {
-			mesh.flipEdge(e);  // potentially invalidates iterators
-		}
-		}
-
-		// Optimized implementation - separation of concerns
-		std::vector&lt;EdgeIter&gt; edgesToFlip;
-		edgesToFlip.reserve(mesh.nEdges());  // pre-allocate for efficiency
-
-		// First pass - identify edges to flip
-		for (EdgeIter e = mesh.edgesBegin(); e != mesh.edgesEnd(); e++) {
-		if (shouldFlip(e)) {
-			edgesToFlip.push_back(e);
-		}
-		}
-
-		// Second pass - perform flips
-		for (EdgeIter e : edgesToFlip) {
-		mesh.flipEdge(e);
-		}</code></pre>
+		<p>Some of the most effective code optimizations I implemented included vertex degree caching to eliminate redundant calculations, using a lookup table for common weight cases, and batch processing for edge operations. Instead of recalculating vertex neighbors for every operation, I pre-computed and stored the results in a cache, which greatly improved efficiency. For weight calculations, I used a static lookup table for common cases and a fallback calculation for others. Batch processing allowed me to separate the gathering and modification of edges, improving memory access patterns and avoiding iterator invalidation. These changes made the subdivision process much more efficient and robust.</p>
 
 		<p><strong>Observations on how meshes behave after loop subdivision:</strong></p>
-		<p>After loop subdivision, sharp corners and edges tend to become rounded and smooth. This is because the subdivision algorithm averages vertex positions with their neighbors, which has a smoothing effect. Sharp features can be preserved to some extent by pre-splitting edges around those features, which gives them more "weight" in the averaging process.</p>
+
+		<p>After loop subdivision, sharp corners and edges tend to become rounded and smooth. This smoothing effect occurs because the subdivision algorithm averages vertex positions with their neighbors. Sharp features can be preserved to some extent by pre-splitting edges around those features, which gives them more influence in the averaging process and helps maintain some of the original geometry.</p>
 
 		<p><strong>Loop subdivision on dae/cube.dae and asymmetry effects:</strong></p>
 		<div style="display: flex; flex-direction: column; align-items: center;">
@@ -405,34 +314,43 @@
 				  <img src="images/cube_subdivision_2.png" width="300px"/>
 				  <figcaption>After 2 subdivisions</figcaption>
 				</td>
-			  </tr>
-			  <tr>
 				<td style="text-align: center;">
 				  <img src="images/cube_subdivision_3.png" width="300px"/>
 				  <figcaption>After 3 subdivisions</figcaption>
-				</td>
-				<td style="text-align: center;">
-				  <img src="images/cube_preprocessed.png" width="300px"/>
-				  <figcaption>Pre-processed cube</figcaption>
-				</td>
-				<td style="text-align: center;">
-				  <img src="images/cube_symmetric.png" width="300px"/>
-				  <figcaption>Symmetric subdivision result</figcaption>
 				</td>
 			  </tr>
 			</table>
 		</div>
 
+		<p><strong>Loop subdivision on dae/cube.dae and asymmetry effects:</strong></p>
+		<div style="display: flex; flex-direction: column; align-items: center;">
+			<table style="width: 100%; text-align: center; border-collapse: collapse;">
+			  <tr>
+				<td style="text-align: center;">
+				  <img src="images/cube_pre_processed.png" width="300px"/>
+				  <figcaption>Pre-processed cube</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="images/cube_pre_processed_1.png" width="300px"/>
+				  <figcaption>Symmetric subdivision result (after 1 subdivision)</figcaption>
+				</td>
+				</td>
+				<td style="text-align: center;">
+				  <img src="images/cube_subdivision_2.png" width="300px"/>
+				  <figcaption>Symmetric subdivision result (after 2 subdivisions)</figcaption>
+				</td>
+				<td style="text-align: center;">
+				  <img src="images/cube_subdivision_3.png" width="300px"/>
+				  <figcaption>Symmetric subdivision result (after 3 subdivisions)</figcaption>
+				</td>
+			  </tr>
+			</table>
+		</div>
+
+
 		<p><strong>Insights on optimization:</strong></p>
-		<p>This project provided valuable lessons about effective code optimization. Rather than focusing on minor optimizations like loop unrolling or increment operator choices, I discovered the importance of addressing algorithmic inefficiencies. The most significant improvements came from:</p>
-		<ul>
-			<li>Identifying true performance bottlenecks through profiling before attempting optimizations</li>
-			<li>Improving memory access patterns to better utilize CPU cache</li>
-			<li>Implementing caching strategies to avoid redundant calculations</li>
-			<li>Using lookup tables for frequently needed values instead of repeated calculations</li>
-			<li>Focusing on algorithmic complexity improvements (from O(n²) to O(n)), which yielded far greater benefits than micro-optimizations</li>
-		</ul>
-		<p>These principles will be valuable in future graphics and computational geometry projects where performance constraints are significant.</p>
+
+		<p>This project provided valuable lessons about effective code optimization. Rather than focusing on minor optimizations like loop unrolling or increment operator choices, I discovered the importance of addressing algorithmic inefficiencies. The most significant improvements came from identifying true performance bottlenecks through profiling before attempting optimizations, improving memory access patterns to better utilize CPU cache, implementing caching strategies to avoid redundant calculations, and using lookup tables for frequently needed values instead of repeated calculations. Focusing on algorithmic complexity improvements—from O(n²) to O(n)—yielded far greater benefits than micro-optimizations. These principles will be valuable in future graphics and computational geometry projects where performance constraints are significant.</p>
 
 		<p><strong>Explanation of asymmetry and pre-processing solution:</strong></p>
 		<p>The cube becomes asymmetric after repeated subdivisions because the original cube mesh has irregular connectivity - each face is split diagonally, creating triangles with different orientations. This asymmetric initial triangulation leads to uneven smoothing during subdivision.</p>
